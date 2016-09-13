@@ -36,6 +36,55 @@ for ($i = 0; $i < 20; $i++) {
 print "Max = $max\n";
 die;
 
-function findMaxAtLocation($digits, $i, $j) {
-	return $i + $j;
+function findMaxAtLocation($digits, $x, $y) {
+	$maxProduct = 0;
+	// Start with left-to-right
+	if ($x < 17) {
+		$product = 1;
+		for ($i = 0; $i < 4; $i++) {
+			$product = $product * $digits[$x + $i][$y];
+		}
+		
+		if ($product > $maxProduct) {
+			$maxProduct = $product;
+		}
+	}
+	
+	// Then up-down
+	if ($y < 17) {
+		$product = 1;
+		for ($i = 0; $i < 4; $i++) {
+			$product = $product * $digits[$x][$y + $i];
+		}
+		
+		if ($product > $maxProduct) {
+			$maxProduct = $product;
+		}		
+	}
+	
+	// Then diagonal down/left
+	if ($x > 2 && $y < 17) {
+		$product = 1;
+		for ($i = 0; $i < 4; $i++) {
+			$product = $product * $digits[$x - $i][$y + $i];
+		}
+		
+		if ($product > $maxProduct) {
+			$maxProduct = $product;
+		}		
+	}
+
+	// Then diagonal down/right
+	if ($x < 17 && $y < 17) {
+		$product = 1;
+		for ($i = 0; $i < 4; $i++) {
+			$product = $product * $digits[$x + $i][$y + $i];
+		}
+		
+		if ($product > $maxProduct) {
+			$maxProduct = $product;
+		}		
+	}
+
+	return $maxProduct;
 }
