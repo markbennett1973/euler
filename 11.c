@@ -3,7 +3,6 @@
 int checkLocation(int row, int column, char* digits);
 int getNumberAtLocation(int row, int column, char* digits);
 
-
 int main(void){
 	
 	char digits[800]=
@@ -27,18 +26,6 @@ int main(void){
 		"2069364172302388346299698267598574043616"
 		"2073352978319001743149714886811623570554"
 		"0170547183515469169233486143520189196748";
-	
-	/* printf("%s\n", digits);
-	for (int row = 0; row < 40; row = row + 2) {
-		for (int column = 0; column < 40; column = column + 2) {
-			int index = (row * 20) + column;
-			char digit1 = digits[index];
-			char digit2 = digits[index+1];
-			
-			printf("%c%c\n", digit1, digit2);
-		}
-		printf("End of row\n");
-	}*/
 	
 	int max = 0;
 	int maxAtLocation = 0;
