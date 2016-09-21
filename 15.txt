@@ -1,0 +1,58 @@
+Ok - I went kinda manual for this one in the end.
+
+Attempt 1
+---------
+In an nxn grid, every route from top-left to bottom-right consists of 2n steps.
+Each step can be either right or down.
+If I represent right with 1 and down with 0, then every 2n-digit binary number represents a different possible route.
+The only routes which reach the bottom right corner are ones with n right steps and n down steps.
+
+So attempt 1 looks like this:
+
+for i = 0; i < 2^2n; i++
+    count set bits in binary representation of i
+    if set bits = n, that's a valid path
+    
+This works nicely, but is unfortunately O(2^n) complexity, so the execution time gets very long very fast:
+5x5 grid: 0.03s
+10x10 grid: 0.027s
+13x13 grid: 1.93s
+15x15 grid: 36.0s
+16x16 grid: 157s
+
+I gave up waiting for a 17x17 grid.
+
+Attempt 2
+---------
+Continuing with the idea that each path is a 2n-digit binary number, I realised that all the valid paths are actually a combination of n 1s and n 0s. I just need to find the number of unique permutations of these digits.
+
+This turns out to be a multinomial coefficient: http://stackoverflow.com/questions/19676109/how-to-generate-all-the-permutations-of-a-multiset
+
+The number of permutations is:
+
+(n + n)!
+---------
+ n! x n!
+
+This cancels down easily to
+
+(product of n+1 to 2n)
+----------------------
+          n!
+          
+This runs much more quickly:
+10x10 grid: 0.003s
+13x13 grid: 0.003s
+14x14 grid: 0.004s
+
+However, at 15x15, it blows the limit of unsigned long ints.
+
+Attempt 3
+---------
+Continuing with the factorial sum from attempt 2, the number of valid paths in a 20x20 grid is
+
+(product of 21 to 40)
+----------------------
+          20!
+
+I wrote these out long-hand and manually cancelled common factors until the denominator reached 1, which left a numerator of 137846528820
